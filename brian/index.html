@@ -1,0 +1,160 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<!-- load D3js -->
+<script src="//d3plus.org/js/d3.js"></script>
+
+<!-- load D3plus after D3js -->
+<script src="//d3plus.org/js/d3plus.js"></script>
+
+<!-- create container element for visualization -->
+<div id="viz"></div>
+
+<script>
+  // create sample dataset
+  var sample_data = [
+    {"name": "Why", "size": 3},
+    {"name": "Components", "size": 3},
+        {"name": "People", "size": 2},
+        {"name": "Product", "size": 2},
+        {"name": "Operations", "size": 2},
+    {"name": "Culture", "size": 3},
+        {"name": "DNA", "size": 2},
+            {"name": "ContinuousLearning", "size": 1},
+            {"name": "Alignment", "size": 1},
+            {"name": "Integrity", "size": 1},
+            {"name": "Sharing", "size": 1},
+            {"name": "Diversity", "size": 1},
+        {"name": "Manefistation", "size": 1},
+            {"name": "Leadership", "size": 1},
+            {"name": "Processes", "size": 1},
+            {"name": "Visibility", "size": 1},
+            {"name": "Living", "size": 1},
+            {"name": "Discipline", "size": 1},
+        {"name": "Enviroment", "size": 1},
+            {"name": "Glue", "size": 1},
+            {"name": "Ecosystem", "size": 1},
+            {"name": "Teach", "size": 1},
+            {"name": "Abundance", "size": 1},
+            {"name": "Passion", "size": 1},
+            {"name": "Collective", "size": 1},
+    {"name": "Process", "size": 3},
+        {"name": "Ideation", "size": 1},
+        {"name": "PreProof", "size": 1},
+        {"name": "SetupProof", "size": 1},
+        {"name": "Maintenance", "size": 1},
+        {"name": "Sell", "size": 1}
+  ]
+  // create list of node positions
+  var positions = [
+    {"name": "Why", "x": 10, "y": 15},
+    {"name": "Components", "x": 12, "y": 24},
+        {"name": "People", "x": 13, "y": 4},
+        {"name": "Product", "x": 5, "y": 7},
+        {"name": "Operations", "x": 31, "y": 13},
+    {"name": "Culture", "x": 26, "y": 21},
+        {"name": "DNA", "x": 19, "y": 16},
+            {"name": "ContinuousLearning", "x": 25, "y": 7},
+            {"name": "Alignment", "x": 14, "y": 2},
+            {"name": "Integrity", "x": 13, "y": 15},
+            {"name": "Sharing", "x": 21, "y": 12},
+            {"name": "Diversity", "x": 7, "y": 9},
+        {"name": "Manefistation", "x": 7, "y": 1},
+            {"name": "Leadership", "x": 1, "y": 9},
+            {"name": "Processes", "x": 3, "y": 2},
+            {"name": "Visibility", "x": 5, "y": 5},
+            {"name": "Living", "x": 6, "y": 4},
+            {"name": "Discipline", "x": 9, "y": 6},
+        {"name": "Enviroment", "x": 17, "y": 3},
+            {"name": "Glue", "x": 11, "y": 11},
+            {"name": "Ecosystem", "x": 14, "y": 17},
+            {"name": "Teach", "x": 18, "y": 11},
+            {"name": "Abundance", "x": 15, "y": 16},
+            {"name": "Passion", "x": 12, "y": 17},
+            {"name": "Collective", "x": 19, "y": 18},
+    {"name": "Process", "x": 16, "y": 18},
+        {"name": "Ideation", "x": 23, "y": 23},
+        {"name": "PreProof", "x": 19, "y": 25},
+        {"name": "SetupProof", "x": 26, "y": 27},
+        {"name": "Maintenance", "x": 27, "y": 15},
+        {"name": "Sell", "x": 13, "y": 26},
+
+  ]
+  // create list of node connections
+  var connections = [
+    {"source": "Components", "target": "People"},
+    {"source": "Components", "target": "Product"},
+    {"source": "Components", "target": "Operations"},
+    {"source": "Culture", "target": "DNA"},
+    {"source": "Culture", "target": "Manefistation"},
+    {"source": "Culture", "target": "Enviroment"},
+    {"source": "DNA", "target": "Manefistation"},
+    {"source": "DNA", "target": "Manefistation"},
+    {"source": "DNA", "target": "Manefistation"},
+    {"source": "DNA", "target": "Enviroment"},
+    {"source": "Manefistation", "target": "Enviroment"},
+    {"source": "Manefistation", "target": "Enviroment"},
+    {"source": "Manefistation", "target": "Enviroment"},
+    {"source": "Process", "target": "Ideation"},
+    {"source": "Process", "target": "PreProof"},
+    {"source": "Process", "target": "SetupProof"},
+    {"source": "Process", "target": "Maintenance"},
+    {"source": "Process", "target": "Sell"},
+    {"source": "Why", "target": "People"},
+    {"source": "Why", "target": "Product"},
+    {"source": "Why", "target": "Operations"},
+    {"source": "Why", "target": "DNA"},
+    {"source": "Why", "target": "Manefistation"},
+    {"source": "Why", "target": "Enviroment"},
+    {"source": "Why", "target": "Ideation"},
+    {"source": "Why", "target": "PreProof"},
+    {"source": "Why", "target": "SetupProof"},
+    {"source": "Why", "target": "Maintenance"},
+    {"source": "Why", "target": "Sell"},
+    {"source": "DNA", "target": "ContinuousLearning"},
+    {"source": "DNA", "target": "Alignment"},
+    {"source": "DNA", "target": "Integrity"},
+    {"source": "DNA", "target": "Sharing"},
+    {"source": "DNA", "target": "Diversity"},
+    {"source": "ContinuousLearning", "target": "Alignment"},
+    {"source": "ContinuousLearning", "target": "Integrity"},
+    {"source": "ContinuousLearning", "target": "Sharing"},
+    {"source": "ContinuousLearning", "target": "Diversity"},
+    {"source": "Alignment", "target": "ContinuousLearning"},
+    {"source": "Alignment", "target": "Integrity"},
+    {"source": "Alignment", "target": "Sharing"},
+    {"source": "Alignment", "target": "Diversity"},
+    {"source": "Integrity", "target": "Sharing"},
+    {"source": "Integrity", "target": "Diversity"},
+        {"source": "Manefistation", "target": "Leadership"},
+            {"source": "Leadership", "target": "Processes"},
+            {"source": "Leadership", "target": "Visibility"},
+            {"source": "Leadership", "target": "Living"},
+            {"source": "Leadership", "target": "Discipline"},
+            {"source": "Visibility", "target": "Living"},
+            {"source": "Visibility", "target": "Discipline"},
+        {"source": "Manefistation", "target": "Processes"},
+        {"source": "Manefistation", "target": "Visibility"},
+        {"source": "Manefistation", "target": "Living"},
+        {"source": "Manefistation", "target": "Discipline"},
+        {"source": "Enviroment", "target": "Glue"},
+        {"source": "Enviroment", "target": "Ecosystem"},
+        {"source": "Enviroment", "target": "Teach"},
+        {"source": "Enviroment", "target": "Abundance"},
+        {"source": "Enviroment", "target": "Passion"},
+        {"source": "Enviroment", "target": "Collective"},
+
+
+
+  ]
+  // instantiate d3plus
+  var visualization = d3plus.viz()
+    .container("#viz")  // container DIV to hold the visualization
+    .type("network")    // visualization type
+    .data(sample_data)  // sample dataset to attach to nodes
+    .nodes(positions)   // x and y position of nodes
+    .edges(connections) // list of node connections
+    .size("size")       // key to size the nodes
+    .id("name")         // key for which our data is unique on
+    .draw()             // finally, draw the visualization!
+</script>

@@ -1,0 +1,14 @@
+id,value,color
+ExCollectives,
+ExCollectives.Company,
+ExCollectives.Company.Advisors,1.5,#617CBE
+ExCollectives.Company.Legal,1,#0073AD
+ExCollectives.Company.Investors,1.5,#E58E00
+ExCollectives.Customer,
+ExCollectives.Customer.Employers,1,#808080
+ExCollectives.Customer.Business Model,2,#2E2575
+ExCollectives.Customer.Satisfaction,1,#E54F24
+ExCollectives.Product,
+ExCollectives.Product.Database,2,#617CBE
+ExCollectives.Product.Templates,3,#0073AD
+ExCollectives.Product.Learning,1.5,#E58E00
